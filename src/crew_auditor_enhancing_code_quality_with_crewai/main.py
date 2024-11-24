@@ -12,7 +12,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'github_repo_url': 'https://github.com/danielfsbarreto/crew-poc-abinbev-pricing-strategy'
+        'github_repo': 'https://github.com/danielfsbarreto/crew-poc-abinbev-pricing-strategy'
     }
     CrewAuditorEnhancingCodeQualityWithCrewaiCrew().crew().kickoff(inputs=inputs)
 

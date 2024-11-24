@@ -1,44 +1,79 @@
 ---
-fetch_repository_content:
-  description: 'Fetch and read the codebase from the provided GitHub repository URL:
-    {github_repo_url}.'
-  expected_output: The codebase from {github_repo_url} is successfully fetched and
+fetch_crew_content:
+  description: >
+    Fetch and read the codebase from the provided GitHub repository URL:
+    {github_repo}.
+  expected_output: >
+    The codebase from {github_repo} is successfully fetched and
     available for analysis.
-  async_execution: false
-  agent: repo_analyzer
-evaluate_code_structure:
-  description: Analyze the code's architecture, commenting, and readability from the
-    fetched content of {github_repo_url}.
-  expected_output: A detailed analysis of the code's structure, highlighting strengths
-    and areas for improvement.
-  async_execution: false
-  agent: repo_analyzer
+
+    Retry as many times as needed until you successfully fetch the code.
+    Respond with "OUTPUT > Crew code fetched successfully" or "OUTPUT > Crew code not fetched successfully"
+  agent: crewai_expert
+
+fetch_crewai_docs:
+  description: Fetch up-to-date documentation of CrewAI (http://docs.crewai.com/).
+  expected_output: >
+    All latest information regarding CrewAI's docs is successfully fetched and
+    available to serve as knowledge baseline for the evaluation of {github_repo}.
+
+    Retry as many times as needed until you successfully fetch the docs.
+    Respond with "OUTPUT > Docs fetched successfully" or "OUTPUT > Docs not fetched successfully"
+  agent: crewai_expert
+
+fetch_crewai_source_code:
+  description: >
+    Fetch the latest info about CrewAI
+    open-source framework (https://github.com/crewAIInc/crewai).
+  expected_output: >
+    All latest information regarding CrewAI's open-source framework is
+    successfully fetched and available to serve as knowledge baseline for
+    the evaluation of {github_repo}.
+
+    Retry as many times as needed until you successfully fetch the docs.
+    Respond with "OUTPUT > CrewAI code fetched successfully" or "OUTPUT > CrewAI code not fetched successfully"
+  agent: crewai_expert
+
+evaluate_crew:
+  description: >
+    Analyze the crew code from the fetched content of {github_repo}.
+    Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement.
+    Make the analysis in a couple of dimensions:
+    - Readability
+    - Maintainability
+    - Reliability
+    - Documentation
+    - Testability
+  expected_output: >
+    A detailed analysis of the crew's code, highlighting strengths and areas for improvement.
+    Be extra careful to not make false assumptions about the codebase.
+    Always pick real examples found in the code while highlighting deficiencies, as well as how that specific deficiency could be improved.
   context:
-  - fetch_repository_content
-check_against_best_practices:
-  description: Use the CrewAI best practices to evaluate the code from {github_repo_url}.
-  expected_output: A comparison report detailing where the code meets or deviates
-    from CrewAI's best practices.
-  async_execution: false
-  agent: best_practices_checker
-  context:
-  - fetch_repository_content
+  - fetch_crew_content
+  - fetch_crewai_docs
+  - fetch_crewai_source_code
+  agent: crewai_expert
+
 calculate_quality_score:
   description: Based on the evaluation, calculate a quality score for the repository
-    at {github_repo_url} from 0 to 100.
-  expected_output: A quality score representing the code's adherence to best practices
-    and overall quality.
-  async_execution: false
-  agent: best_practices_checker
+    at {github_repo} from 0 to 100.
+  expected_output: >
+    A quality score representing the code's adherence to best practices and overall quality.
+    Each dimension should be attributed the weight.
+    The final score should be the sum of the weights of each dimension.
   context:
-  - evaluate_code_structure
-  - check_against_best_practices
+  - evaluate_crew
+  agent: crewai_expert
+
 generate_detailed_report:
   description: Compile the findings, improvement suggestions, and the quality score
-    into a detailed report for {github_repo_url}.
-  expected_output: A comprehensive report with a quality score and actionable improvement
-    suggestions for {github_repo_url}.
-  async_execution: false
-  agent: report_generator
+    into a detailed report for {github_repo}.
+  expected_output: >
+    A comprehensive report with a quality score and actionable improvement suggestions for {github_repo}.
+    Start the report outlining the quality scores, both general and split by dimension.
+    On each dimension, outline concrete aspects of the analyzed crew were good, as well as areas for improvement.
+    Always refer back to the codebase while highlighting deficiencies, as well as how that specific deficiency could be improved.
   context:
+  - evaluate_crew
   - calculate_quality_score
+  agent: report_generator

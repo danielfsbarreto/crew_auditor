@@ -1,3 +1,5 @@
+import os
+
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import GithubSearchTool
@@ -8,62 +10,59 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew():
     """CrewAuditorEnhancingCodeQualityWithCrewai crew"""
 
     @agent
-    def repo_analyzer(self) -> Agent:
+    def crewai_expert(self) -> Agent:
         return Agent(
-            config=self.agents_config['repo_analyzer'],
-            
-        )
-
-    @agent
-    def best_practices_checker(self) -> Agent:
-        return Agent(
-            config=self.agents_config['best_practices_checker'],
-            
+            config=self.agents_config['crewai_expert'],
+            tools=[
+                GithubSearchTool(
+                    gh_token=os.environ.get('GH_TOKEN'),
+                    content_types=['code'],
+                ),
+                CodeDocsSearchTool(docs_url="https://docs.crewai.com/")
+            ],
         )
 
     @agent
     def report_generator(self) -> Agent:
         return Agent(
             config=self.agents_config['report_generator'],
-            
-        )
-
-
-    @task
-    def fetch_repository_content(self) -> Task:
-        return Task(
-            config=self.tasks_config['fetch_repository_content'],
-            tools=[GithubSearchTool()],
         )
 
     @task
-    def evaluate_code_structure(self) -> Task:
+    def fetch_crew_content(self) -> Task:
         return Task(
-            config=self.tasks_config['evaluate_code_structure'],
-            
+            config=self.tasks_config['fetch_crew_content'],
         )
 
     @task
-    def check_against_best_practices(self) -> Task:
+    def fetch_crewai_docs(self) -> Task:
         return Task(
-            config=self.tasks_config['check_against_best_practices'],
-            tools=[CodeDocsSearchTool()],
+            config=self.tasks_config['fetch_crewai_docs'],
+        )
+
+    @task
+    def fetch_crewai_source_code(self) -> Task:
+        return Task(
+            config=self.tasks_config['fetch_crewai_source_code'],
+        )
+
+    @task
+    def evaluate_crew(self) -> Task:
+        return Task(
+            config=self.tasks_config['evaluate_crew'],
         )
 
     @task
     def calculate_quality_score(self) -> Task:
         return Task(
             config=self.tasks_config['calculate_quality_score'],
-            
         )
 
     @task
     def generate_detailed_report(self) -> Task:
         return Task(
             config=self.tasks_config['generate_detailed_report'],
-            
         )
-
 
     @crew
     def crew(self) -> Crew:
