@@ -1,0 +1,20 @@
+[project]
+name = "crew_auditor_enhancing_code_quality_with_crewai"
+version = "0.1.0"
+description = "crew_auditor_enhancing_code_quality_with_crewai using crewAI"
+authors = [{ name = "Daniel Barreto", email = "danielfsbarreto@gmail.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.80.0,<1.0.0"
+]
+
+[project.scripts]
+crew_auditor_enhancing_code_quality_with_crewai = "crew_auditor_enhancing_code_quality_with_crewai.main:run"
+run_crew = "crew_auditor_enhancing_code_quality_with_crewai.main:run"
+train = "crew_auditor_enhancing_code_quality_with_crewai.main:train"
+replay = "crew_auditor_enhancing_code_quality_with_crewai.main:replay"
+test = "crew_auditor_enhancing_code_quality_with_crewai.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

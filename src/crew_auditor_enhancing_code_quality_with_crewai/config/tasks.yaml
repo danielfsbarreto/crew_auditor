@@ -1,0 +1,44 @@
+---
+fetch_repository_content:
+  description: 'Fetch and read the codebase from the provided GitHub repository URL:
+    {github_repo_url}.'
+  expected_output: The codebase from {github_repo_url} is successfully fetched and
+    available for analysis.
+  async_execution: false
+  agent: repo_analyzer
+evaluate_code_structure:
+  description: Analyze the code's architecture, commenting, and readability from the
+    fetched content of {github_repo_url}.
+  expected_output: A detailed analysis of the code's structure, highlighting strengths
+    and areas for improvement.
+  async_execution: false
+  agent: repo_analyzer
+  context:
+  - fetch_repository_content
+check_against_best_practices:
+  description: Use the CrewAI best practices to evaluate the code from {github_repo_url}.
+  expected_output: A comparison report detailing where the code meets or deviates
+    from CrewAI's best practices.
+  async_execution: false
+  agent: best_practices_checker
+  context:
+  - fetch_repository_content
+calculate_quality_score:
+  description: Based on the evaluation, calculate a quality score for the repository
+    at {github_repo_url} from 0 to 100.
+  expected_output: A quality score representing the code's adherence to best practices
+    and overall quality.
+  async_execution: false
+  agent: best_practices_checker
+  context:
+  - evaluate_code_structure
+  - check_against_best_practices
+generate_detailed_report:
+  description: Compile the findings, improvement suggestions, and the quality score
+    into a detailed report for {github_repo_url}.
+  expected_output: A comprehensive report with a quality score and actionable improvement
+    suggestions for {github_repo_url}.
+  async_execution: false
+  agent: report_generator
+  context:
+  - calculate_quality_score
