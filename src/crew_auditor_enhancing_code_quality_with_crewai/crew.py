@@ -18,7 +18,7 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew():
                     gh_token=os.environ.get('GH_TOKEN'),
                     content_types=['code'],
                 ),
-                CodeDocsSearchTool(docs_url="https://docs.crewai.com/")
+                CodeDocsSearchTool()
             ],
         )
 

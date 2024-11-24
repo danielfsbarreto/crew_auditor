@@ -4,11 +4,10 @@ fetch_crew_content:
     Fetch and read the codebase from the provided GitHub repository URL:
     {github_repo}.
   expected_output: >
-    The codebase from {github_repo} is successfully fetched and
-    available for analysis.
-
-    Retry as many times as needed until you successfully fetch the code.
-    Respond with "OUTPUT > Crew code fetched successfully" or "OUTPUT > Crew code not fetched successfully"
+    The codebase from {github_repo} is successfully fetched and available for analysis.
+  error_handling:
+    required: true
+    on_failure: abort
   agent: crewai_expert
 
 fetch_crewai_docs:
@@ -16,22 +15,20 @@ fetch_crewai_docs:
   expected_output: >
     All latest information regarding CrewAI's docs is successfully fetched and
     available to serve as knowledge baseline for the evaluation of {github_repo}.
-
-    Retry as many times as needed until you successfully fetch the docs.
-    Respond with "OUTPUT > Docs fetched successfully" or "OUTPUT > Docs not fetched successfully"
+  error_handling:
+    required: true
+    on_failure: abort
   agent: crewai_expert
 
 fetch_crewai_source_code:
-  description: >
-    Fetch the latest info about CrewAI
-    open-source framework (https://github.com/crewAIInc/crewai).
+  description: Fetch the latest info about CrewAI open-source framework (https://github.com/crewAIInc/crewai).
   expected_output: >
     All latest information regarding CrewAI's open-source framework is
     successfully fetched and available to serve as knowledge baseline for
     the evaluation of {github_repo}.
-
-    Retry as many times as needed until you successfully fetch the docs.
-    Respond with "OUTPUT > CrewAI code fetched successfully" or "OUTPUT > CrewAI code not fetched successfully"
+  error_handling:
+    required: true
+    on_failure: abort
   agent: crewai_expert
 
 evaluate_crew:
