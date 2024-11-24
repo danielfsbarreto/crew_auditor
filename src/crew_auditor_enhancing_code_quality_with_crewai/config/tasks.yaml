@@ -4,11 +4,10 @@ fetch_crew_content:
     Fetch and read the codebase from the provided GitHub repository URL:{github_repo}.
   expected_output: >
     The code from {github_repo} is successfully fetched and available for analysis.
-    Emphasize searching for the following types of files in the codebase:
-    - Python files
-    - Markdown files
-    - YAML files
-    Outline if the codebase was fetched successfully or not. In case of success, summarize the contente fetched.
+    Perform search queries for the following languages:
+    - Python
+    - YAML
+    - Markdown
   agent: crewai_expert
 
 fetch_crewai_docs:
@@ -16,18 +15,16 @@ fetch_crewai_docs:
   expected_output: >
     All latest information regarding CrewAI's docs is successfully fetched and available to serve
     as knowledge baseline for the evaluation of {github_repo}.
-    Outline if the docs were fetched successfully or not. In case of success, summarize the content fetched.
   agent: crewai_expert
 
 fetch_crewai_source_code:
   description: Fetch the latest info about CrewAI open-source framework (https://github.com/crewAIInc/crewai).
   expected_output: >
     The code of CrewAI's open-source framework is successfully fetched and available to serve as knowledge baseline for the evaluation of {github_repo}.
-    Emphasize searching for the following types of files in the codebase:
-    - Python files
-    - Markdown files
-    - YAML files
-    Outline if the source code was fetched successfully or not. In case of success, summarize the content fetched.
+    Perform search queries for the following languages:
+    - Python
+    - YAML
+    - Markdown
   agent: crewai_expert
 
 evaluate_crew:
