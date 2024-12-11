@@ -1,0 +1,30 @@
+---
+fetch_crew_content:
+  description: >
+    Fetch all the code content for the repository {github_repo} on GitHub.
+  expected_output: >
+    The content of all files in the repository {github_repo} on GitHub.
+  agent: code_fetcher
+
+fetch_crewai_docs:
+  description: Fetch up-to-date documentation of CrewAI (http://docs.crewai.com/).
+  expected_output: >
+    All latest information regarding CrewAI's docs is successfully fetched and available to serve
+    as knowledge baseline for the evaluation of {github_repo}.
+  agent: crewai_expert
+
+evaluate_crew:
+  description: >
+    Analyze the crew code from the fetched content of {github_repo}.
+    Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement.
+    Be extra careful to not make false assumptions about the codebase.
+    Always pick real examples found in the code while highlighting deficiencies, as well as how that specific deficiency could be improved.
+    Ignore testing aspects altogether.
+  expected_output: >
+    A detailed analysis of the crew's code, highlighting strengths and areas for improvement.
+    At the beginning of the report, include a quality score from 0 to 100.
+    Do not include testing aspects in the report.
+  context:
+  - fetch_crew_content
+  - fetch_crewai_docs
+  agent: crewai_expert

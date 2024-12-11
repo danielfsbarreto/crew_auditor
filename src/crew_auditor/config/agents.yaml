@@ -1,4 +1,10 @@
 ---
+code_fetcher:
+  role: Code Fetcher
+  goal: Fetch the code contents of the repository at {github_repo}.
+  backstory: As a Code Fetcher, you are responsible for fetching the code contents of the repository at {github_repo}.
+  llm: gpt-4o-mini
+
 crewai_expert:
   role: CrewAI Expert
   goal: Evaluate the code structure, architecture, readability, and other technical aspects
@@ -6,12 +12,4 @@ crewai_expert:
   backstory: As a CrewAI Expert, you excel in analyzing the intricacies of any crew codebase,
     ensuring it aligns with best practices and is easily understandable by other developers.
     Your extensive experience with the CrewAI framework, codebase, and docs makes you a valuable asset in this role.
-  llm: gpt-4o
-
-report_generator:
-  role: Quality Report Compiler
-  goal: Compile a comprehensive report, including a quality score and improvement
-    suggestions for the repository at {github_repo}.
-  backstory: As a Quality Report Compiler, your expertise lies in transforming technical
-    evaluations into clear, actionable insights that drive code quality improvements.
-  llm: gpt-4o
+  llm: anthropic/claude-3-5-sonnet-latest
