@@ -36,11 +36,11 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
             config=self.tasks_config["fetch_crew_content"],  # type: ignore
         )
 
-    @task
-    def fetch_crewai_docs(self) -> Task:
-        return Task(
-            config=self.tasks_config["fetch_crewai_docs"],  # type: ignore
-        )
+    # @task
+    # def fetch_crewai_docs(self) -> Task:
+    #     return Task(
+    #         config=self.tasks_config["fetch_crewai_docs"],  # type: ignore
+    #     )
 
     @task
     def evaluate_crew(self) -> Task:
