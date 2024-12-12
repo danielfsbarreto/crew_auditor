@@ -25,7 +25,7 @@ class GitHubCodeFetcherTool(BaseTool):
     args_schema: Type[BaseModel] = GitHubCodeFetcherToolInput
 
     def _run(self, github_repo: str) -> str:
-        access_token = str(os.getenv("GITHUB_ACCESS_TOKEN", ""))
+        access_token = os.getenv("GITHUB_ACCESS_TOKEN")
         if not access_token:
             raise ValueError("GITHUB_ACCESS_TOKEN environment variable is not set")
 

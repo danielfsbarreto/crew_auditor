@@ -13,7 +13,7 @@ def run():
     """
     Run the crew.
     """
-    inputs = {"github_repo": "danielfsbarreto/crew_internal_lfg_reactor"}
+    inputs = {"github_repo": "danielfsbarreto/crew_auditor"}
     CrewAuditorEnhancingCodeQualityWithCrewaiCrew().crew().kickoff(inputs=inputs)
 
 
