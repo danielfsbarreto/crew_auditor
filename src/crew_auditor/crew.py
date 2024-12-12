@@ -1,6 +1,6 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import DirectorySearchTool
+from crewai_tools import SpiderTool
 
 from crew_auditor.tools.git_hub_code_fetcher_tool import GitHubCodeFetcherTool
 from crew_auditor.tools.report_writing_tool import ReportWritingTool
@@ -21,7 +21,7 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
     def crewai_expert(self) -> Agent:
         return Agent(
             config=self.agents_config["crewai_expert"],  # type: ignore
-            tools=[DirectorySearchTool(directory="crewai-docs"), ReportWritingTool()],
+            tools=[SpiderTool(), ReportWritingTool()],
         )
 
     # @agent
@@ -36,11 +36,11 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
             config=self.tasks_config["fetch_crew_content"],  # type: ignore
         )
 
-    # @task
-    # def fetch_crewai_docs(self) -> Task:
-    #     return Task(
-    #         config=self.tasks_config["fetch_crewai_docs"],  # type: ignore
-    #     )
+    @task
+    def fetch_crewai_docs(self) -> Task:
+        return Task(
+            config=self.tasks_config["fetch_crewai_docs"],  # type: ignore
+        )
 
     @task
     def evaluate_crew(self) -> Task:

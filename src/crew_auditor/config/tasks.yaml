@@ -6,12 +6,14 @@ fetch_crew_content:
     The content of all files in the repository {github_repo} on GitHub.
   agent: code_fetcher
 
-# fetch_crewai_docs:
-#   description: Fetch up-to-date information about CrewAI docs from the directory `crewai-docs`.
-#   expected_output: >
-#     All latest information regarding CrewAI's docs is successfully fetched and available to serve
-#     as knowledge base for the evaluation of {github_repo}.
-#   agent: crewai_expert
+fetch_crewai_docs:
+  description: >
+    Fetch up-to-date information about CrewAI docs.
+    Use the SpiderTool to scrape "https://docs.crewai.com/" with a limit of 0 and depth of 1.
+  expected_output: >
+    All latest information regarding CrewAI's docs is successfully fetched and available to serve
+    as knowledge base for the evaluation of {github_repo}.
+  agent: crewai_expert
 
 evaluate_crew:
   description: >
