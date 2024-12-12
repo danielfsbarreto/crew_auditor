@@ -7,10 +7,10 @@ fetch_crew_content:
   agent: code_fetcher
 
 fetch_crewai_docs:
-  description: Fetch up-to-date documentation of CrewAI (http://docs.crewai.com/).
+  description: Fetch up-to-date information about CrewAI docs from the directory `crewai-docs`.
   expected_output: >
     All latest information regarding CrewAI's docs is successfully fetched and available to serve
-    as knowledge baseline for the evaluation of {github_repo}.
+    as knowledge base for the evaluation of {github_repo}.
   agent: crewai_expert
 
 evaluate_crew:
