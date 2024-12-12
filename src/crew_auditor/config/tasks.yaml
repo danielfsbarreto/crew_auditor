@@ -16,15 +16,56 @@ fetch_crewai_docs:
 evaluate_crew:
   description: >
     Analyze the crew code from the fetched content of {github_repo}.
-    Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement.
+    Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement on:
+    - Overall crew architecture
+    - Agents definition
+    - Tasks definition
+    - Tools definition
+    Also, define a quality score for the crew between 0 and 100.
     Be extra careful to not make false assumptions about the codebase.
     Always pick real examples found in the code while highlighting deficiencies, as well as how that specific deficiency could be improved.
-    Ignore testing aspects altogether.
+    Lastly, the report must not contain leading and trailing "```", just plain markdown
   expected_output: >
-    A detailed analysis of the crew's code, highlighting strengths and areas for improvement.
-    At the beginning of the report, include a quality score from 0 to 100.
-    Do not include testing aspects in the report.
+    A report with the analysis of the crew's code, highlighting strengths and areas for improvement.
+    It needs to have the following sections:
+    - Report Title
+    - Introduction
+    - Quality Score
+    - Crew Architecture
+    - Agents
+    - Tasks
+    - Tools
+    - Recommendations
   context:
   - fetch_crew_content
   - fetch_crewai_docs
   agent: crewai_expert
+
+# review_report:
+#   description: >
+#     Review the report and make all necessary changes to ensure it is complete, accurate, and follows all expected business rules.
+#     Here's a comprehensive list of the said rules:
+#     1. It must have concrete improvement suggestions (with code examples) whenever highlighting deficiencies
+#     2. It must not contain leading and trailing "```", just plain markdown
+#     3. It must contain a quality score between 0 and 100
+#     4. It must have the following structure:
+#     # CrewAI Code Analysis Report for `[crew_name]`
+#     ## Introduction
+#     [introduction section content]
+#     ## Quality Score
+#     [quality score section content]
+#     ## Crew Architecture
+#     [crew architecture section content]
+#     ## Agents
+#     [agents section content]
+#     ## Tasks
+#     [tasks section content]
+#     ## Tools
+#     [tools section content]
+#     ## Recommendations
+#     [recommendations section content]
+#   expected_output: >
+#     A report with all business rules fully respected.
+#   context:
+#   - evaluate_crew
+#   agent: report_reviewer
