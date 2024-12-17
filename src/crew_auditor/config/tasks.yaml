@@ -4,6 +4,7 @@ fetch_crew_content:
     Fetch all the code content for the repository {github_repo} on GitHub.
   expected_output: >
     The content of all files in the repository {github_repo} on GitHub.
+  async_execution: true
   agent: information_collector
 
 fetch_crewai_docs:
@@ -12,61 +13,118 @@ fetch_crewai_docs:
   expected_output: >
     All latest information regarding CrewAI's docs is successfully fetched and available to serve
     as knowledge base for the evaluation of {github_repo}.
-  agent: information_collector
+  async_execution: true
+  agent: crewai_expert
+
+# evaluate_crew:
+#   description: >
+#     Analyze the crew code from the fetched content of {github_repo}.
+#     Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement on:
+#     - Overall crew architecture
+#     - Agents definition
+#     - Tasks definition
+#     - Tools definition
+#     Also, define a quality score for the crew between 0 and 100.
+#     Be extra careful to not make false assumptions about the codebase.
+#     Always pick real examples found in the code while highlighting areas for improvement, bringing tangible recommendations.
+#     Lastly, the report must not contain leading and trailing "```", just plain markdown
+#   expected_output: >
+#     A report with the analysis of the crew's code, highlighting strengths and areas for improvement with concrete examples for every recommendation.
+#     It needs to have the following sections:
+#     - Report Title
+#     - Introduction
+#     - Quality Score
+#     - Crew Architecture
+#     - Agents
+#     - Tasks
+#     - Tools
+#     - Recommendations
+#   context:
+#   - fetch_crew_content
+#   - fetch_crewai_docs
+#   agent: crewai_expert
 
 evaluate_crew:
   description: >
-    Analyze the crew code from the fetched content of {github_repo}.
-    Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement on:
-    - Overall crew architecture
-    - Agents definition
-    - Tasks definition
-    - Tools definition
-    Also, define a quality score for the crew between 0 and 100.
-    Be extra careful to not make false assumptions about the codebase.
-    Always pick real examples found in the code while highlighting areas for improvement, bringing tangible recommendations.
-    Lastly, the report must not contain leading and trailing "```", just plain markdown
+    Conduct a comprehensive analysis of the CrewAI implementation in the {github_repo} repository.
+    This evaluation aims to provide actionable insights for improving the crew's effectiveness and adherence to CrewAI best practices.
+
+    Analyze the following aspects of the CrewAI implementation:
+
+    1. Crew Architecture:
+      - Overall structure and organization
+      - Interaction flow between agents
+      - Task delegation and coordination
+
+    2. Agents Definition:
+      - Clarity and specificity of agent roles
+      - Appropriateness of agent capabilities
+      - Diversity and complementarity of agents
+
+    3. Tasks Definition:
+      - Task clarity and atomicity
+      - Logical sequence and dependencies
+      - Alignment with overall project goals
+
+    4. Tools Definition:
+      - Relevance and utility of defined tools
+      - Integration with agent capabilities
+      - Potential for expanding tool usage
+
+    For each aspect, provide:
+    - Strengths: Identify and explain positive implementation choices
+    - Areas for Improvement: Highlight specific issues and provide concrete recommendations
+    - Code Examples: Include relevant code snippets to illustrate points (both positive and negative)
+
+    Calculate a quality score (0-100) based on the following criteria:
+    - Crew Architecture (0-25 points)
+    - Agents Definition (0-25 points)
+    - Tasks Definition (0-25 points)
+    - Tools Definition (0-25 points)
+
+    For each criterion, consider:
+    - Adherence to CrewAI best practices
+    - Code quality and organization
+    - Effectiveness in achieving stated goals
+
+    Provide a brief justification for each sub-score and the final total score.
   expected_output: >
-    A report with the analysis of the crew's code, highlighting strengths and areas for improvement with concrete examples for every recommendation.
-    It needs to have the following sections:
-    - Report Title
-    - Introduction
-    - Quality Score
-    - Crew Architecture
-    - Agents
-    - Tasks
-    - Tools
-    - Recommendations
+    Generate a detailed report with the following sections:
+
+    1. Executive Summary
+      - Brief overview of findings
+      - Quality score with high-level justification
+
+    2. Crew Architecture Analysis
+      - Strengths
+      - Areas for Improvement
+      - Recommendations
+
+    3. Agents Evaluation
+      - Strengths
+      - Areas for Improvement
+      - Recommendations
+
+    4. Tasks Assessment
+      - Strengths
+      - Areas for Improvement
+      - Recommendations
+
+    5. Tools Review
+      - Strengths
+      - Areas for Improvement
+      - Recommendations
+
+    6. Detailed Quality Score Breakdown
+      - Sub-scores for each main criterion
+      - Justification for each sub-score
+
+    7. Conclusion and Next Steps
+      - Summary of key findings
+      - Prioritized list of recommended improvements
+
+    Use appropriate Markdown formatting for readability, including headers, lists, and code blocks for examples.
   context:
   - fetch_crew_content
   - fetch_crewai_docs
   agent: crewai_expert
-
-# review_report:
-#   description: >
-#     Review the report and make all necessary changes to ensure it is complete, accurate, and follows all expected business rules.
-#     Here's a comprehensive list of the said rules:
-#     1. It must have concrete improvement suggestions (with code examples) whenever highlighting deficiencies
-#     2. It must not contain leading and trailing "```", just plain markdown
-#     3. It must contain a quality score between 0 and 100
-#     4. It must have the following structure:
-#     # CrewAI Code Analysis Report for `[crew_name]`
-#     ## Introduction
-#     [introduction section content]
-#     ## Quality Score
-#     [quality score section content]
-#     ## Crew Architecture
-#     [crew architecture section content]
-#     ## Agents
-#     [agents section content]
-#     ## Tasks
-#     [tasks section content]
-#     ## Tools
-#     [tools section content]
-#     ## Recommendations
-#     [recommendations section content]
-#   expected_output: >
-#     A report with all business rules fully respected.
-#   context:
-#   - evaluate_crew
-#   agent: report_reviewer

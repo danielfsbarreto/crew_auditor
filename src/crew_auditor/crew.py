@@ -10,15 +10,16 @@ from crew_auditor.tools.report_writing_tool import ReportWritingTool
 class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
     """CrewAuditorEnhancingCodeQualityWithCrewai crew"""
 
+    github_crew_code_fetcher_tool = GithubCrewCodeFetcherTool()
     docs_search_tool = CodeDocsSearchTool(docs_url="https://docs.crewai.com/")
+    # report_writing_tool = ReportWritingTool()
 
     @agent
     def information_collector(self) -> Agent:
         return Agent(
             config=self.agents_config["information_collector"],  # type: ignore
             tools=[
-                GithubCrewCodeFetcherTool(),
-                self.docs_search_tool,
+                self.github_crew_code_fetcher_tool,
             ],
         )
 
@@ -28,15 +29,9 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
             config=self.agents_config["crewai_expert"],  # type: ignore
             tools=[
                 self.docs_search_tool,
-                ReportWritingTool(),
+                # self.report_writing_tool,
             ],
         )
-
-    # @agent
-    # def report_reviewer(self) -> Agent:
-    #     return Agent(
-    #         config=self.agents_config["report_reviewer"],  # type: ignore
-    #     )
 
     @task
     def fetch_crew_content(self) -> Task:
@@ -55,12 +50,6 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
         return Task(
             config=self.tasks_config["evaluate_crew"],  # type: ignore
         )
-
-    # @task
-    # def review_report(self) -> Task:
-    #     return Task(
-    #         config=self.tasks_config["review_report"],  # type: ignore
-    #     )
 
     @crew
     def crew(self) -> Crew:

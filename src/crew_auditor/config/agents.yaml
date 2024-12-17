@@ -15,7 +15,6 @@ crewai_expert:
   backstory: As a CrewAI Expert, you excel in analyzing the intricacies of any crew codebase,
     ensuring it aligns with best practices and is easily understandable by other developers.
     Your extensive experience with the CrewAI framework, codebase, and docs makes you a valuable asset in this role.
-  allow_delegation: true
   llm: anthropic/claude-3-5-sonnet-latest
 
 # report_reviewer:
