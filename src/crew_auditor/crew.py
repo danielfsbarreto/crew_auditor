@@ -15,21 +15,21 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
     scraper_tool = ScrapeWebsiteTool()
 
     @agent
-    def code_collector(self) -> Agent:
+    def information_collector(self) -> Agent:
         return Agent(
-            config=self.agents_config["code_collector"],  # type: ignore
-            tools=[self.github_crew_code_fetcher_tool],
+            config=self.agents_config["information_collector"],  # type: ignore
+            tools=[
+                self.github_crew_code_fetcher_tool,
+                self.docs_search_tool,
+                self.google_search_tool,
+                self.scraper_tool,
+            ],
         )
 
     @agent
     def crewai_expert(self) -> Agent:
         return Agent(
             config=self.agents_config["crewai_expert"],  # type: ignore
-            tools=[
-                self.docs_search_tool,
-                self.google_search_tool,
-                self.scraper_tool,
-            ],
         )
 
     @task
@@ -42,6 +42,12 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
     def fetch_crewai_docs(self) -> Task:
         return Task(
             config=self.tasks_config["fetch_crewai_docs"],  # type: ignore
+        )
+
+    @task
+    def search_crewai_on_the_web(self) -> Task:
+        return Task(
+            config=self.tasks_config["search_crewai_on_the_web"],  # type: ignore
         )
 
     @task
