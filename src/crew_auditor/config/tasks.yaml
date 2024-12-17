@@ -5,7 +5,7 @@ fetch_crew_content:
   expected_output: >
     The content of all files in the repository {github_repo} on GitHub.
   async_execution: true
-  agent: information_collector
+  agent: code_collector
 
 fetch_crewai_docs:
   description: >
@@ -20,6 +20,7 @@ evaluate_crew:
   description: >
     Conduct a comprehensive analysis of the CrewAI implementation in the {github_repo} repository.
     Always circle back to the information collected from the CrewAI docs and the repository code for a more accurate evaluation.
+    Feel free to search the web looking for more information about the CrewAI framework and its best practices.
     This evaluation aims to provide actionable insights for improving the crew's effectiveness and adherence to CrewAI best practices.
 
     Analyze the following aspects of the CrewAI implementation:
@@ -100,5 +101,4 @@ evaluate_crew:
   context:
   - fetch_crew_content
   - fetch_crewai_docs
-  allow_delegation: true
   agent: crewai_expert

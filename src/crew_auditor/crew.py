@@ -1,10 +1,8 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import CodeDocsSearchTool
+from crewai_tools import CodeDocsSearchTool, ScrapeWebsiteTool, SerperDevTool
 
 from crew_auditor.tools.github_tools import GithubCrewCodeFetcherTool
-
-# from crew_auditor.tools.report_writing_tool import ReportWritingTool
 
 
 @CrewBase
@@ -13,12 +11,13 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
 
     github_crew_code_fetcher_tool = GithubCrewCodeFetcherTool()
     docs_search_tool = CodeDocsSearchTool(docs_url="https://docs.crewai.com/")
-    # report_writing_tool = ReportWritingTool()
+    google_search_tool = SerperDevTool()
+    scraper_tool = ScrapeWebsiteTool()
 
     @agent
-    def information_collector(self) -> Agent:
+    def code_collector(self) -> Agent:
         return Agent(
-            config=self.agents_config["information_collector"],  # type: ignore
+            config=self.agents_config["code_collector"],  # type: ignore
             tools=[self.github_crew_code_fetcher_tool],
         )
 
@@ -28,7 +27,8 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
             config=self.agents_config["crewai_expert"],  # type: ignore
             tools=[
                 self.docs_search_tool,
-                # self.report_writing_tool,
+                self.google_search_tool,
+                self.scraper_tool,
             ],
         )
 
