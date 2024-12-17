@@ -3,7 +3,8 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import CodeDocsSearchTool
 
 from crew_auditor.tools.github_tools import GithubCrewCodeFetcherTool
-from crew_auditor.tools.report_writing_tool import ReportWritingTool
+
+# from crew_auditor.tools.report_writing_tool import ReportWritingTool
 
 
 @CrewBase
@@ -18,9 +19,7 @@ class CrewAuditorEnhancingCodeQualityWithCrewaiCrew:
     def information_collector(self) -> Agent:
         return Agent(
             config=self.agents_config["information_collector"],  # type: ignore
-            tools=[
-                self.github_crew_code_fetcher_tool,
-            ],
+            tools=[self.github_crew_code_fetcher_tool],
         )
 
     @agent

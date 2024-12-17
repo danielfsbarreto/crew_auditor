@@ -9,44 +9,17 @@ fetch_crew_content:
 
 fetch_crewai_docs:
   description: >
-    Fetch up-to-date information about CrewAI docs.
+    Fetch up-to-date information about CrewAI docs using the tool available.
   expected_output: >
     All latest information regarding CrewAI's docs is successfully fetched and available to serve
     as knowledge base for the evaluation of {github_repo}.
   async_execution: true
   agent: crewai_expert
 
-# evaluate_crew:
-#   description: >
-#     Analyze the crew code from the fetched content of {github_repo}.
-#     Use all of your knowledge of CrewAI to provide a detailed analysis of the code, highlighting strengths and areas for improvement on:
-#     - Overall crew architecture
-#     - Agents definition
-#     - Tasks definition
-#     - Tools definition
-#     Also, define a quality score for the crew between 0 and 100.
-#     Be extra careful to not make false assumptions about the codebase.
-#     Always pick real examples found in the code while highlighting areas for improvement, bringing tangible recommendations.
-#     Lastly, the report must not contain leading and trailing "```", just plain markdown
-#   expected_output: >
-#     A report with the analysis of the crew's code, highlighting strengths and areas for improvement with concrete examples for every recommendation.
-#     It needs to have the following sections:
-#     - Report Title
-#     - Introduction
-#     - Quality Score
-#     - Crew Architecture
-#     - Agents
-#     - Tasks
-#     - Tools
-#     - Recommendations
-#   context:
-#   - fetch_crew_content
-#   - fetch_crewai_docs
-#   agent: crewai_expert
-
 evaluate_crew:
   description: >
     Conduct a comprehensive analysis of the CrewAI implementation in the {github_repo} repository.
+    Always circle back to the information collected from the CrewAI docs and the repository code for a more accurate evaluation.
     This evaluation aims to provide actionable insights for improving the crew's effectiveness and adherence to CrewAI best practices.
 
     Analyze the following aspects of the CrewAI implementation:
@@ -127,4 +100,5 @@ evaluate_crew:
   context:
   - fetch_crew_content
   - fetch_crewai_docs
+  allow_delegation: true
   agent: crewai_expert
